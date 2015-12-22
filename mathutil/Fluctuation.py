@@ -3,7 +3,7 @@ import random
 
 class Fluctuation:
 
-    def __init__(self,percentage):
+    def __init__(self, percentage):
         self.percentage = percentage
 
     def __call__(self, value):
