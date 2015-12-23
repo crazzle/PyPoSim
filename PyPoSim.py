@@ -6,6 +6,7 @@ import time, threading
 ref = SimplePlantActor.SimplePlantActor.start()
 app = Flask(__name__)
 
+
 @app.route('/')
 def get_power_for_plant():
     power = ref.ask({'msg': 'stats'})

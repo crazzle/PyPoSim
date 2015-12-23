@@ -1,6 +1,7 @@
 from plant import SimplePlant
 import pykka
 
+
 class SimplePlantActor(pykka.ThreadingActor):
 
     def __init__(self):
