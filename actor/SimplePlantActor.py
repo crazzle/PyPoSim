@@ -4,9 +4,9 @@ import pykka
 
 class SimplePlantActor(pykka.ThreadingActor):
 
-    def __init__(self):
+    def __init__(self, power, fluctuation, ramp):
         super(SimplePlantActor, self).__init__()
-        self.plant = SimplePlant.SimplePlant(100, 15, 5)
+        self.plant = SimplePlant.SimplePlant(power, fluctuation, ramp)
 
     def on_receive(self, message):
         if message["msg"] == "tick":
