@@ -2,3 +2,4 @@
 *.pyc
 *.xml
 *.db
+*.DS_Store
