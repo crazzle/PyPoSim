@@ -1,6 +1,7 @@
 import sqlite3
 from hashids import Hashids
 from model import StoredPlant
+from plantexception import PlantNotFoundException
 
 
 class PlantStorage:
@@ -53,7 +54,10 @@ class PlantStorage:
             fluctuation = row[4]
             ramp = row[5]
             entries.append(StoredPlant.StoredPlant(plant_id, name, power, fluctuation, ramp))
-        return entries[0]
+        try:
+            return entries[0]
+        except IndexError:
+            raise PlantNotFoundException.PlantNotFoundException("Plant not in storage", uid)
 
     def persist(self, name, power, fluctuation, ramp):
         connection = sqlite3.connect(self.db)
