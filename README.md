@@ -1,6 +1,8 @@
 # PyPoSim
 A small power plant simulator that can ramp to a certain power level. Great for noisy time-series data generation!
 
+Test it at: http://plainpixels.work
+
 # Getting started
 1. Clone the repo
 2. Navigate into the PyPoSim folder
