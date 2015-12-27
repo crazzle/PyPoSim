@@ -29,15 +29,15 @@ In order to function properly, the body must contain JSON in the following forma
 The response of this endpoint contains a UID that is used to access the new created simulation.
 
 ## Get current power
-You can get the current power using **/<UID>**.
+You can get the current power using **/{UID}**.
 
 ## Get master data
-You can get the master data using **/masterdata/<UID>**.
+You can get the master data using **/masterdata/{UID}**.
 
 ## Dispatch
 You can dispatch your plant (tell it to ramp to a certain powerlevel) by using 
-the **/dispatch/<uid>/<point>** endpoint. Point is the new powerlevel your plant should ramp to.
+the **/dispatch/{UID}/{POINT}** endpoint. Point is the new powerlevel your plant should ramp to.
 The plant ramps according to the ramp that was specified during creation.
 
 ## Delete
-To delete a simulator just use **/delete/<UID>**
+To delete a simulator just use **/delete/{UID}**
