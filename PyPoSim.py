@@ -20,6 +20,11 @@ for plant in storage.get_all_plants():
 app = Flask(__name__)
 
 
+@app.route('/')
+def get_all_plants():
+    return json.dumps([p.__dict__ for p in storage.get_all_plants()])
+
+
 @app.route('/masterdata/<uid>')
 def get_masterdata_for_plant(uid):
     try:
