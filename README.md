@@ -14,12 +14,10 @@ The simulator provides a REST API to create, poll, steere and delete simulated p
 Plants are added via the **/add** endpoint using the HTTP POST method.
 In order to function properly, the body must contain JSON in the following format:
 
-{ 	
-  "name": "Sample Plant", 	
+{ "name": "Sample Plant", 	
   "power": 150, 	
   "fluctuation": 10, 	
-  "ramp": 15 
-}
+  "ramp": 15 }
 
 - Name is the name of your plant.
 - power is the power this plant generates in KW
