@@ -4,8 +4,24 @@
     <title>PyPoSim</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
   <body>
+    <script type=text/javascript>
+        $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
+        function setOutputForPlant(uid, output){
+            $("span#power-out-"+uid).text(output)
+        }
+        (function worker() {
+            {% for n in plants %}
+            $.getJSON('/{{n.uid}}', function (data) {
+                setOutputForPlant('{{n.uid}}', data)
+            });
+            {% endfor %}
+            setTimeout(worker, 1000);
+        })();
+    </script>
     <div class="container">
         <div class="page-header">
             <p class="lead">PyPoSim Active Plants</p>
@@ -21,20 +37,21 @@
                 </span>
             </div>
             <div class="panel-body">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <span>Power: {{n.power}}</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <span>Fluctuation: {{n.fluctuationInPercentage}}</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <span>Ramp: {{n.rampInSeconds}}</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Current output: </span><span id="power-out-{{n.uid}}"></span>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </body>
 </html>
