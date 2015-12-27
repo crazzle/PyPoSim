@@ -62,6 +62,8 @@ def add_new_plant():
         return str(uid)
     except KeyError:
         return not_created()
+    except ValueError:
+        return not_created()
 
 
 @app.route('/delete/<uid>')
