@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PyPoSim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+        <div class="page-header">
+            <p class="lead">PyPoSim Active Plants</p>
+        </div>
+        {% for n in plants %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span>
+                    <h4 class="panel-title">
+                        {{n.name}}
+                        <span class="label label-primary">UID: {{n.uid}}</span>
+                    </h4>
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <span>Power: {{n.power}}</span>
+                </div>
+                <div class="col-md-4">
+                    <span>Fluctuation: {{n.fluctuationInPercentage}}</span>
+                </div>
+                <div class="col-md-4">
+                    <span>Ramp: {{n.rampInSeconds}}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </body>
+</html>

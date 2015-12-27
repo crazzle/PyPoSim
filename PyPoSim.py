@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 from flask import request
 from actor import SimplePlantActor
 from plantstorage import PlantStorage
@@ -22,7 +23,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def get_all_plants():
-    return json.dumps([p.__dict__ for p in storage.get_all_plants()])
+    return render_template('show_plants.html', plants=storage.get_all_plants())
 
 
 @app.route('/masterdata/<uid>')
