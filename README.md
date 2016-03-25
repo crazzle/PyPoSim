@@ -7,7 +7,7 @@ Test it at: http://plainpixels.work
 1. Clone the repo
 2. Navigate into the PyPoSim folder
 3. Install the required dependencies with pip install -r requirements.txt
-4. run it with gunicorn PyPoSim:app (standard port is 8000)
+4. run it with python PyPoSim.py (standard port is 5000)
 
 # Play with the simulator
 The simulator provides a REST API to create, poll, steere and delete simulated plants.

@@ -25,7 +25,7 @@ ADD . /PyPoSim
 RUN pip install -r /PyPoSim/requirements.txt
 
 # Expose ports
-EXPOSE 8000
+EXPOSE 5000
 
 # Set the default directory where CMD will execute
 WORKDIR /PyPoSim
@@ -33,4 +33,4 @@ WORKDIR /PyPoSim
 # Set the default command to execute
 # when creating a new container
 # i.e. using CherryPy to serve the application
-CMD gunicorn PyPoSim:app
+CMD python PyPoSim.py
