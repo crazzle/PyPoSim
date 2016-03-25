@@ -3,3 +3,5 @@
 *.xml
 *.db
 *.DS_Store
+ENV
+*.log

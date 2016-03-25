@@ -1,0 +1,41 @@
+import logging
+import threading
+
+from .scheduler import Scheduler
+from .eventloopscheduler import EventLoopScheduler
+
+log = logging.getLogger('Rx')
+
+
+class NewThreadScheduler(Scheduler):
+    """Creates an object that schedules each unit of work on a separate thread.
+    """
+
+    def __init__(self, thread_factory=None):
+        super(NewThreadScheduler, self).__init__()
+
+        def default_factory(target, args=None):
+            t = threading.Thread(target=target, args=args or [])
+            t.setDaemon(True)
+            return t
+
+        self.thread_factory = thread_factory or default_factory
+
+    def schedule(self, action, state=None):
+        """Schedules an action to be executed."""
+
+        scheduler = EventLoopScheduler(thread_factory=self.thread_factory, exit_if_empty=True)
+        return scheduler.schedule(action, state)
+
+    def schedule_relative(self, duetime, action, state=None):
+        """Schedules an action to be executed after duetime."""
+
+        scheduler = EventLoopScheduler(thread_factory=self.thread_factory, exit_if_empty=True)
+        return scheduler.schedule_relative(duetime, action, state)
+
+    def schedule_absolute(self, duetime, action, state=None):
+        """Schedules an action to be executed at duetime."""
+
+        return self.schedule_relative(duetime - self.now(), action, state=None)
+
+Scheduler.new_thread = new_thread_scheduler = NewThreadScheduler()
