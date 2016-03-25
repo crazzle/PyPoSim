@@ -25,7 +25,7 @@ ADD . /PyPoSim
 RUN pip install -r /PyPoSim/requirements.txt
 
 # Expose ports
-EXPOSE 5000
+EXPOSE 8000
 
 # Set the default directory where CMD will execute
 WORKDIR /PyPoSim
