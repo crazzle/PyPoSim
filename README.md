@@ -7,6 +7,8 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 3. Install the required dependencies with pip install -r requirements.txt
 4. run it with python PyPoSim.py (standard port is 5000)
 
+You can run it alternatively using Docker.
+
 # Play with the simulator
 The simulator provides a REST API to create, poll, steere and delete simulated plants.
 
