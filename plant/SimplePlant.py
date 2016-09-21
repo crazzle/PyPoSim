@@ -25,7 +25,3 @@ class SimplePlant:
         state = copy.deepcopy(self)
         state.ramp = self.ramp.start(target, self.power)
         return state
-
-    def is_ramp_at_end(self, current_power, target):
-        result = abs(current_power-target) <= self.rampPerSecond
-        return result

@@ -14,6 +14,7 @@ storage = PlantStorage.PlantStorage()
 storage.initialize_db()
 for plant in storage.get_all_plants():
     plants[plant.uid] = SimplePlantActor.SimplePlantActor.start(
+            plant.uid,
             plant.power,
             plant.fluctuationInPercentage,
             plant.rampInSeconds)
