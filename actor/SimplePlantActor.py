@@ -1,6 +1,6 @@
 from plant import SimplePlant
 import pykka
-from streams.Streams import globalPowerStream as powerStream
+from streams.Streams import globalStream as stream
 
 
 class SimplePlantActor(pykka.ThreadingActor):
@@ -13,7 +13,7 @@ class SimplePlantActor(pykka.ThreadingActor):
     def on_receive(self, message):
         if message["msg"] == "tick":
             self.plant = self.plant.evolve()
-            powerStream.on_next({
+            stream.on_next({
                 "id": self.id,
                 "metric": "active_power",
                 "value": self.plant.output

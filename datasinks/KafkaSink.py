@@ -1,5 +1,5 @@
 from kafka import KafkaProducer
-from streams.Streams import globalPowerStream as powerStream
+from streams.Streams import globalStream as stream
 import json
 import util.Config as Config
 
@@ -13,5 +13,5 @@ producer = KafkaProducer(bootstrap_servers=server+":"+port)
 
 
 def subscribe():
-    powerStream.subscribe(lambda x: producer.send(topic, json.dump(x)))
+    stream.subscribe(lambda x: producer.send(topic, json.dumps(x)))
 

@@ -1,4 +1,4 @@
-from streams.Streams import globalPowerStream as powerStream
+from streams.Streams import globalStream as stream
 import json
 import logging
 
@@ -6,4 +6,4 @@ logger = logging.getLogger(__name__)
 
 
 def subscribe():
-    powerStream.subscribe(lambda x: logger.info(json.dumps(x)))
+    stream.subscribe(lambda x: logger.info(json.dumps(x)))
