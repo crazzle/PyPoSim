@@ -129,11 +129,6 @@ if __name__ == '__main__':
 
     logger.info("starting application PyPoSim...")
 
-    ## clean before start
-    if Config.get_startup_config()["clean_start"]:
-        app.logger.info("clearing existing plants...")
-        storage.destroy_all()
-
     ## adding standard plant
     if Config.get_startup_config()["add_plants"]:
         app.logger.info("adding standard plants...")
@@ -146,10 +141,11 @@ if __name__ == '__main__':
     run_async_tick()
 
     ## register datasinks
-    LoggingSink.subscribe()
     if Config.get_kafka_config()["enabled"]:
         KafkaSink.subscribe()
+    if Config.get_history_config()["enabled"]:
+        logger.info("history enabled")
+        LoggingSink.subscribe()
 
     ## run flask app
     app.run(host='0.0.0.0')
-

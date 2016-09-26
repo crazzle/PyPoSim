@@ -1,7 +1,9 @@
 import sqlite3
+
 from hashids import Hashids
-from model import StoredPlant
+import util.Config as Config
 from plantexception import PlantNotFoundException
+from plantstorage import StoredPlant
 
 
 class PlantStorage:
@@ -13,6 +15,13 @@ class PlantStorage:
     def initialize_db(self):
         connection = sqlite3.connect(self.db)
         cursor = connection.cursor()
+
+        if Config.get_startup_config()["clean_start"]:
+            cursor.execute("""
+            DROP TABLE IF EXISTS plant
+            """)
+            connection.commit()
+
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS plant (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,8 +83,3 @@ class PlantStorage:
         cursor.execute("delete from plant where id=?", store_id)
         connection.commit()
 
-    def destroy_all(self):
-        connection = sqlite3.connect(self.db)
-        cursor = connection.cursor()
-        cursor.execute("delete from plant")
-        connection.commit()

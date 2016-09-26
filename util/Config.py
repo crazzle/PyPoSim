@@ -12,6 +12,12 @@ def get_kafka_config():
     return {"server": server, "port": port, "topic": topic, "enabled": enabled}
 
 
+def get_history_config():
+    enabled = parser.get("History", "enabled")
+    filename = parser.get("History", "filename")
+    return {"enabled": enabled, "filename": filename}
+
+
 def get_startup_config():
     add_plants = parser.getboolean("Startup", "add_plants")
     clean_start = parser.getboolean("Startup", "clean_start")

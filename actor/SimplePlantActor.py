@@ -1,6 +1,7 @@
 from plant import SimplePlant
 import pykka
 from streams.Streams import globalStream as stream
+import datetime
 
 
 class SimplePlantActor(pykka.ThreadingActor):
@@ -15,6 +16,7 @@ class SimplePlantActor(pykka.ThreadingActor):
             self.plant = self.plant.evolve()
             stream.on_next({
                 "id": self.id,
+                "timestamp": datetime.datetime.now().isoformat(),
                 "metric": "active_power",
                 "value": self.plant.output
             })

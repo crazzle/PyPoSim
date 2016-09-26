@@ -4,3 +4,4 @@ Hashids
 Rx
 RxPY
 kafka-python
+futures
