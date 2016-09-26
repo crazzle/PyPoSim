@@ -3,3 +3,4 @@ Pykka
 Hashids
 Rx
 RxPY
+kafka-python

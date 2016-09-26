@@ -8,6 +8,10 @@ from plantexception import PlantNotFoundException
 import json
 import time
 import threading
+import logging
+import datasinks.LoggingSink as LoggingSink
+import datasinks.KafkaSink as KafkaSink
+import util.Config as Config
 
 plants = {}
 storage = PlantStorage.PlantStorage()
@@ -60,7 +64,7 @@ def add_new_plant():
         raw = request.data
         body = json.loads(raw)
         uid = storage.persist(body['name'], body['power'], body['fluctuation'], body['ramp'])
-        plants[uid] = SimplePlantActor.SimplePlantActor.start(body['power'], body['fluctuation'], body['ramp'])
+        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, body['power'], body['fluctuation'], body['ramp'])
         return str(uid)
     except KeyError:
         return not_created()
@@ -118,7 +122,33 @@ def schedule_tick():
 def run_async_tick():
     threading.Thread(target=schedule_tick).start()
 
-run_async_tick()
-
 if __name__ == '__main__':
+    ## configure logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
+    logger.info("starting application PyPoSim...")
+
+    ## clean before start
+    if Config.get_startup_config()["clean_start"]:
+        app.logger.info("clearing existing plants...")
+        storage.destroy_all()
+
+    ## adding standard plant
+    if Config.get_startup_config()["add_plants"]:
+        app.logger.info("adding standard plants...")
+        uid_standard_1 = storage.persist("Standard 1", 100, 10, 5)
+        plants[uid_standard_1] = SimplePlantActor.SimplePlantActor.start(uid_standard_1, 100, 10, 5)
+        uid_standard_2 = storage.persist("Standard 2", 500, 50, 25)
+        plants[uid_standard_2] = SimplePlantActor.SimplePlantActor.start(uid_standard_2, 500, 50, 25)
+
+    ## bootstrapping simulator
+    run_async_tick()
+
+    ## register datasinks
+    LoggingSink.subscribe()
+    KafkaSink.subscribe()
+
+    ## run flask app
     app.run(host='0.0.0.0')
+

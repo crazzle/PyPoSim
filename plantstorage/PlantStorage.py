@@ -73,3 +73,9 @@ class PlantStorage:
         cursor = connection.cursor()
         cursor.execute("delete from plant where id=?", store_id)
         connection.commit()
+
+    def destroy_all(self):
+        connection = sqlite3.connect(self.db)
+        cursor = connection.cursor()
+        cursor.execute("delete from plant")
+        connection.commit()
