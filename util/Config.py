@@ -8,7 +8,8 @@ def get_kafka_config():
     server = parser.get("Kafka", "bootstrap_server")
     port = parser.get("Kafka", "bootstrap_port")
     topic = parser.get("Kafka", "topic")
-    return {"server": server, "port": port, "topic": topic}
+    enabled = parser.get("Kafka", "enabled")
+    return {"server": server, "port": port, "topic": topic, "enabled": enabled}
 
 
 def get_startup_config():

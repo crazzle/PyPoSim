@@ -147,7 +147,8 @@ if __name__ == '__main__':
 
     ## register datasinks
     LoggingSink.subscribe()
-    KafkaSink.subscribe()
+    if Config.get_kafka_config()["enabled"]:
+        KafkaSink.subscribe()
 
     ## run flask app
     app.run(host='0.0.0.0')
