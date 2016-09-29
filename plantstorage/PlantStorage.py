@@ -3,7 +3,7 @@ import sqlite3
 from hashids import Hashids
 import util.Config as Config
 from plantexception import PlantNotFoundException
-from plantstorage import StoredPlant
+import StoredPlant
 
 
 class PlantStorage:
