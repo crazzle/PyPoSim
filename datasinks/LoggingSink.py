@@ -11,4 +11,15 @@ logger.addHandler(fh)
 
 
 def subscribe():
-    stream.subscribe(lambda x: logger.info(json.dumps(x)))
+    header = "timestamp;" + "metric;" + "id;" + "value"
+    logger.info(header)
+    stream.subscribe(lambda dp: logger.info(dpToCSV(dp)))
+
+
+def dpToCSV(dp):
+    ts = str(dp["timestamp"])
+    metric = str(dp["metric"])
+    dp_id = str(dp["id"])
+    value = str(dp["value"])
+    csv = ts + ";" + metric + ";" + dp_id + ";" + value
+    return csv
