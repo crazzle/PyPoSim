@@ -1,6 +1,5 @@
 from kafka import KafkaProducer
 from streams.Streams import globalStream as stream
-import json
 import util.Config as Config
 import logging
 from concurrent import futures
@@ -10,7 +9,7 @@ from concurrent import futures
 def subscribe_async():
     try:
         producer = KafkaProducer(bootstrap_servers=server + ":" + port)
-        stream.subscribe(lambda x: producer.send(topic, json.dumps(x)))
+        stream.subscribe(lambda x: producer.send(topic, str(x)))
     except Exception as e:
         logger.error("could not connect to kafka broker because of " + str(e))
 

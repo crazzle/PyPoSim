@@ -1,5 +1,4 @@
 from streams.Streams import globalStream as stream
-import json
 import logging
 import util.Config as Config
 
@@ -15,9 +14,9 @@ def subscribe():
 
 
 def dpToCSV(dp):
-    ts = str(dp["timestamp"])
-    metric = str(dp["metric"])
-    dp_id = str(dp["id"])
-    value = str(dp["value"])
+    ts = str(dp.timestamp)
+    metric = str(dp.metric)
+    dp_id = str(dp.id)
+    value = str(dp.value)
     csv = ts + ";" + metric + ";" + dp_id + ";" + value
     return csv
