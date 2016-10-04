@@ -8,12 +8,12 @@ def get_kafka_config():
     server = parser.get("Kafka", "bootstrap_server")
     port = parser.get("Kafka", "bootstrap_port")
     topic = parser.get("Kafka", "topic")
-    enabled = parser.get("Kafka", "enabled")
+    enabled = parser.getboolean("Kafka", "enabled")
     return {"server": server, "port": port, "topic": topic, "enabled": enabled}
 
 
 def get_history_config():
-    enabled = parser.get("History", "enabled")
+    enabled = parser.getboolean("History", "enabled")
     filename = parser.get("History", "filename")
     return {"enabled": enabled, "filename": filename}
 
