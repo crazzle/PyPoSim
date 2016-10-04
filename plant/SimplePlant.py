@@ -8,7 +8,8 @@ from model import DataPoint
 
 class SimplePlant:
 
-    def __init__(self, power, fluctuation_in_percent, ramp_per_second):
+    def __init__(self, plant_id, power, fluctuation_in_percent, ramp_per_second):
+        self.plant_id = plant_id
         self.power = power
         self.output = power
         self.percentage = fluctuation_in_percent
@@ -36,5 +37,5 @@ class SimplePlant:
         self.emit("power_output", self.output)
 
     def emit(self, metric, value):
-        dp = DataPoint.DataPoint(self.id, datetime.datetime.now().isoformat(), metric, value)
+        dp = DataPoint.DataPoint(self.plant_id, datetime.datetime.now().isoformat(), metric, value)
         stream.on_next(dp)

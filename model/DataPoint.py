@@ -3,15 +3,15 @@ import json
 
 class DataPoint:
 
-    def __init__(self, id, timestamp, metric, value):
-        self.id = id
+    def __init__(self, plant_id, timestamp, metric, value):
+        self.plant_id = plant_id
         self.timestamp = timestamp
         self.metric = metric
         self.value = value
 
     def __repr__(self):
         dp_json = {
-            "id": self.id,
+            "plant_id": self.plant_id,
             "timestamp": self.timestamp,
             "metric": self.metric,
             "value": self.value
