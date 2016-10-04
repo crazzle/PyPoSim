@@ -1,5 +1,6 @@
 import json
 
+
 class DataPoint:
 
     def __init__(self, id, timestamp, metric, value):

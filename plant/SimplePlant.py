@@ -31,10 +31,10 @@ class SimplePlant:
         state.emit("dispatch", target)
         return state
 
-    def emit_all():
+    def emit_all(self):
         self.emit("power_base", self.power)
-        self.emit("power_output",self.output)
+        self.emit("power_output", self.output)
 
     def emit(self, metric, value):
-        dp = DataPoint.DataPoint(self.id,datetime.datetime.now().isoformat(),metric, value)
+        dp = DataPoint.DataPoint(self.id, datetime.datetime.now().isoformat(), metric, value)
         stream.on_next(dp)

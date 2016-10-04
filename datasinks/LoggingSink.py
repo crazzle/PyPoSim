@@ -10,10 +10,10 @@ logger.addHandler(fh)
 
 
 def subscribe():
-    stream.subscribe(lambda dp: logger.info(dpToCSV(dp)))
+    stream.subscribe(lambda dp: logger.info(dp_to_csv(dp)))
 
 
-def dpToCSV(dp):
+def dp_to_csv(dp):
     ts = str(dp.timestamp)
     metric = str(dp.metric)
     dp_id = str(dp.id)

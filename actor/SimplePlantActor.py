@@ -18,6 +18,3 @@ class SimplePlantActor(pykka.ThreadingActor):
 
         elif message["msg"] == "stats":
             return self.plant.output
-            
-            
-    
