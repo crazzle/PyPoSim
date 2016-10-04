@@ -11,7 +11,7 @@ class DataPoint:
 
     def __repr__(self):
         dp_json = {
-            "plant_id": self.plant_id,
+            "plantId": self.plant_id,
             "timestamp": self.timestamp,
             "metric": self.metric,
             "value": self.value
