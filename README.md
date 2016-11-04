@@ -1,6 +1,17 @@
 # PyPoSim [![Build Status](https://travis-ci.org/crazzle/PyPoSim.svg?branch=master)](https://travis-ci.org/crazzle/PyPoSim)
 A small power plant simulator that can ramp to a certain power level. Great for noisy time-series data generation!
 
+**TO-DO**
+
+[X] Provide Kafka support
+
+[_] Ensure connection to Kafka Broker if Kafka is down on start-up
+
+[X] Log datapoints into a file
+
+[X] Provide REST API
+
+
 # Getting started
 1. Clone the repo
 2. Navigate into the PyPoSim folder
@@ -11,6 +22,7 @@ You can run it alternatively using Docker.
 
 # Play with the simulator
 The simulator provides a REST API to create, poll, steere and delete simulated plants.
+For stream processing Kafka can be configured accordingly to push datapoints into a topic.
 
 ## Add
 Plants are added via the **/add** endpoint using the HTTP POST method.
