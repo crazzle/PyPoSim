@@ -1,6 +1,17 @@
 # PyPoSim [![Build Status](https://travis-ci.org/crazzle/PyPoSim.svg?branch=master)](https://travis-ci.org/crazzle/PyPoSim)
 A small power plant simulator that can ramp to a certain power level. Great for noisy time-series data generation!
 
+**TO-DO**
+
+[X] Provide Kafka support
+
+[_] Ensure connection to Kafka Broker if Kafka is down on start-up
+
+[X] Log datapoints into a file
+
+[X] Provide REST API
+
+
 # Getting started
 1. Clone the repo
 2. Navigate into the PyPoSim folder
@@ -11,6 +22,7 @@ You can run it alternatively using Docker.
 
 # Play with the simulator
 The simulator provides a REST API to create, poll, steere and delete simulated plants.
+For stream processing Kafka can be configured accordingly to push datapoints into a topic.
 
 ## Add
 Plants are added via the **/add** endpoint using the HTTP POST method.
@@ -41,3 +53,25 @@ The plant ramps according to the ramp that was specified during creation.
 
 ## Delete
 To delete a simulator just use **/delete/{UID}**
+
+## MIT Licence
+Copyright (c) 2016 Mark Keinhörster
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
