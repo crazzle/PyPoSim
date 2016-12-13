@@ -17,14 +17,14 @@ Plants are added via the **/add** endpoint using the HTTP POST method.
 In order to function properly, the body must contain JSON in the following format:
 
 { "name": "Sample Plant", 	
-  "power": 150, 	
+  "internal_setpoint": 150, 	
   "fluctuation": 10, 	
   "ramp": 15 }
 
-- Name is the name of your plant.
-- power is the power this plant generates in KW
-- fluctuation is the fluctuation running around the power in percentage
-- ramp is the factor the plants ramps up and down per second in KW
+- "name" is the name of your plant.
+- "internal_setpoint" the initial power level this plant is supposed to generate. The output fluctuates around this value
+- "fluctuation" is the fluctuation running around the power in percentage
+- "ramp" is the factor the plants ramps up and down per second in KW
 
 The response of this endpoint contains a UID that is used to access the new created simulation.
 

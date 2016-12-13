@@ -19,7 +19,7 @@ storage.initialize_db()
 for plant in storage.get_all_plants():
     plants[plant.uid] = SimplePlantActor.SimplePlantActor.start(
             plant.uid,
-            plant.power,
+            plant.internal_setpoint,
             plant.fluctuationInPercentage,
             plant.rampInSeconds)
 
@@ -63,8 +63,8 @@ def add_new_plant():
     try:
         raw = request.data
         body = json.loads(raw)
-        uid = storage.persist(body['name'], body['power'], body['fluctuation'], body['ramp'])
-        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, body['power'], body['fluctuation'], body['ramp'])
+        uid = storage.persist(body['name'], body['internal_setpoint'], body['fluctuation'], body['ramp'])
+        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, body['internal_setpoint'], body['fluctuation'], body['ramp'])
         return str(uid)
     except KeyError:
         return not_created()

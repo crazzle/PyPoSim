@@ -10,7 +10,7 @@ class SimplePlantTest(unittest.TestCase):
         new_state = plant.dispatch(150)
         time.sleep(1)
         end = new_state.evolve()
-        self.assertTrue(end.power == 105)
+        self.assertTrue(end.internal_setpoint == 105)
 
     def testDispatchReached(self):
         plant = SimplePlant.SimplePlant("1a", 100, 15, 5)
@@ -19,7 +19,7 @@ class SimplePlantTest(unittest.TestCase):
         next_state = new_state.evolve()
         time.sleep(1)
         end = next_state.evolve()
-        self.assertTrue(end.power == 110)
+        self.assertTrue(end.internal_setpoint == 110)
 
     def testEvolve(self):
         plant = SimplePlant.SimplePlant("1a", 100, 15, 5)
@@ -28,16 +28,16 @@ class SimplePlantTest(unittest.TestCase):
         first_evolved = new_state.evolve()
         time.sleep(1)
         second_evolved = first_evolved.evolve()
-        self.assertTrue(second_evolved.power == 110)
+        self.assertTrue(second_evolved.internal_setpoint == 110)
 
     def testEvolveLessOneSecond(self):
         plant = SimplePlant.SimplePlant("1a", 100, 15, 5)
         new_state = plant.dispatch(150)
         first_evolved = new_state.evolve()
-        self.assertTrue(first_evolved.power == 100)
+        self.assertTrue(first_evolved.internal_setpoint == 100)
         time.sleep(1)
         second_evolved = first_evolved.evolve()
-        self.assertTrue(second_evolved.power == 105)
+        self.assertTrue(second_evolved.internal_setpoint == 105)
 
 
 if __name__ == "__main__":
