@@ -38,7 +38,7 @@
             </div>
             <div class="panel-body">
                 <div class="col-md-3">
-                    <span>Initial internal setpoint: {{n.internal_setpoint}}</span>
+                    <span>Internal setpoint: {{n.internal_setpoint}}</span>
                 </div>
                 <div class="col-md-3">
                     <span>Fluctuation: {{n.fluctuationInPercentage}}</span>
@@ -47,7 +47,7 @@
                     <span>Ramp: {{n.rampInSeconds}}</span>
                 </div>
                 <div class="col-md-3">
-                    <span>Current output: </span><span id="power-out-{{n.uid}}"></span>
+                    <span>Current output: </span><span id="power-out-{{n.uid}}" class="label label-danger"></span>
                 </div>
             </div>
         </div>
