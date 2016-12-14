@@ -11,7 +11,7 @@
     <script type=text/javascript>
         $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
         function setOutputForPlant(uid, output){
-            $("div#power-out-"+uid).text(output)
+            $("div#power-out-"+uid).text(output+" KW/h")
         }
         (function worker() {
             {% for n in plants %}
@@ -47,8 +47,7 @@
                     <span>Ramp: {{n.rampInSeconds}}</span>
                 </div>
                 <div class="col-md-3">
-                    <div class="col-md-3 label label-danger" id="power-out-{{n.uid}}" style="font-size:16px;"></div>
-                    <div class="col-md-2">KW/h</div>
+                    <div class="label label-danger" id="power-out-{{n.uid}}" style="font-size:16px;"></div>
                 </div>
             </div>
         </div>
