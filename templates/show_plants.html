@@ -3,15 +3,15 @@
   <head>
     <title>PyPoSim</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
   </head>
   <body>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
         function setOutputForPlant(uid, output){
-            $("div#power-out-"+uid).text(output+" KW/h")
+            $("div#power-out-"+uid).text(output)
         }
         (function worker() {
             {% for n in plants %}
@@ -22,37 +22,78 @@
             setTimeout(worker, 1000);
         })();
     </script>
+    <nav class="navbar navbar-static-top navbar-dark bg-inverse">
+      <span class="navbar-brand" href="#">PyPoSim Active Plants</span>
+    </nav>
+
     <div class="container">
-        <div class="page-header">
-            <p class="lead">PyPoSim Active Plants</p>
+        <div class="row">
+
         </div>
+    </div>
+
+    <div class="container" style="padding-top: 25px;">
+        {% set columns = 4 %}
         {% for n in plants %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span>
-                    <h4 class="panel-title">
-                        {{n.name}}
-                        <span class="label label-primary">UID: {{n.uid}}</span>
-                    </h4>
-                </span>
+        {% if loop.index == 1 or (loop.index - 1) % columns == 0 %}
+        {% set current = loop.index - 1 %}
+        <div class="row">
+        {% endif %}
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header container.fluid">
+                        <div class="row">
+                            <h6><span class="col-md-8 " style="text-align:left;">{{n.name}}</span></h6>
+                            <div class="col-md-4" style="text-align:right;">
+                                <h6><span class="tag tag-pill tag-success"  style="text-align:center;">{{n.uid}}</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block text-xs-center">
+                        <div class="card-text">
+                            <div style="text-align:center;vertical-align:middle;font-size:32px;">
+                                <div style="font-weight:bold;">
+                                    <div class="tag tag-danger"
+                                         id="power-out-{{n.uid}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <span class="col-md-8 text-muted"
+                                      style="text-align:left">Initial setpoint:</span>
+                                <span class="col-md-4"
+                                      style="font-weight:bold;text-align:right">
+                                    <span class="tag tag-info">{{n.internal_setpoint}}</span></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <span class="col-md-6 text-muted"
+                                      style="text-align:left">Fluctuation:</span>
+                                <span class="col-md-6 text-muted"
+                                      style="font-weight:bold;text-align:right">
+                                    <span class="tag tag-info">{{n.fluctuationInPercentage}}</span></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <span class="col-md-6 text-muted"
+                                      style="text-align:left">Ramp:</span>
+                                <span class="col-md-6 text-muted"
+                                      style="font-weight:bold;text-align:right">
+                                    <span class="tag tag-info">{{n.rampInSeconds}}</span></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="panel-body">
-                <div class="col-md-3">
-                    <span>Internal setpoint: {{n.internal_setpoint}}</span>
-                </div>
-                <div class="col-md-3">
-                    <span>Fluctuation: {{n.fluctuationInPercentage}}</span>
-                </div>
-                <div class="col-md-3">
-                    <span>Ramp: {{n.rampInSeconds}}</span>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-5 label label-danger"
-                         id="power-out-{{n.uid}}"
-                         style="font-size:16px;text-align:right;"></div>
-                </div>
-            </div>
+        {% if loop.index - columns == current %}
         </div>
+        {% endif %}
         {% endfor %}
     </div>
   </body>
