@@ -21,7 +21,7 @@
             });
             {% endfor %}
             setTimeout(worker, 1000);
-        })();
+        })()
         $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').focus()
         });
@@ -43,6 +43,7 @@
                     window.location.reload();
                 },
                 error: function(){
+                    alert('add', name);
                     console.log("Add to plant failed");
                     console.log(JSON.stringify({
                             "name": name,
@@ -63,29 +64,46 @@
                     window.location.reload();
                 },
                 error: function(){
+                    alert('delete', uid);
                     console.log("Delete plant failed");
                     console.log(uid);
                 },
                 type: 'GET',
                 url: '/delete/'+uid
             });
-        }
+        };
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        function alert(operation, name) {
+            $('#add-plant-alert').html('' +
+                '<div id="add-plant-alert" class="alert alert-danger alert-dismissible fade in">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                'Could not ' + operation + ' plant <strong>"'+name+'".</strong>'+
+                '</div>');
+            $('#add-plant-alert').alert();
+        };
     </script>
     <nav class="navbar navbar-static-top navbar-dark bg-inverse">
-        <span class="navbar-brand" href="#">PyPoSim Active Plants</span>
+        <span class="navbar-brand" href="#">
+            PyPoSim Active Plants
+        </span>
         <button type="button"
                 style="float: right;"
                 class="btn btn-primary add-plant-popover"
                 data-toggle="modal"
-                data-target="#add-plant-modal"
-                >
+                data-target="#add-plant-modal">
             +
         </button>
     </nav>
 
+    <div id="add-plant-alert"></div>
+
     <!-- Modal -->
     <div class="modal fade" id="add-plant-modal" tabindex="-1" role="dialog" aria-labelledby="add-plant-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog  modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -93,25 +111,28 @@
                     </button>
                     <h4 class="modal-title" id="add-plant-label">Add new power plant</h4>
                 </div>
-                <div class="modal-body">
+                <div id='add-input' class="modal-body form-group">
                     <div class="input-group">
                         <label for="input-name">Plant name</label>
-                        <input type="text" class="form-control" id="input-name" placeholder="Enter name">
+                        <input type="text" class="form-control" id="input-name" placeholder="Name of the power plant">
                     </div>
                     <br>
+                    <label for="input-internal_setpoint">Internal setpoint</label>
                     <div class="input-group">
-                        <label for="input-internal_setpoint">Internal setpoint</label>
-                        <input type="number" class="form-control" id="input-internal_setpoint" placeholder="Enter initial setpoint">
+                        <input type="text" class="form-control" id="input-internal_setpoint" placeholder="Initial setpoint in kw">
+                        <span class="input-group-addon">kw</span>
                     </div>
                     <br>
+                    <label for="input-fluctuation">Fluctuation</label>
                     <div class="input-group">
-                        <label for="input-fluctuation">Fluctuation</label>
-                        <input type="number" class="form-control" id="input-fluctuation" placeholder="Enter fluctuation in %">
+                        <input type="text" class="form-control" id="input-fluctuation" placeholder="Fluctuation in %">
+                        <span class="input-group-addon">%</span>
                     </div>
                     <br>
+                    <label for="input-ramp">Ramp rate</label>
                     <div class="input-group">
-                        <label for="input-ramp">Ramp rate</label>
-                        <input type="number" class="form-control" id="input-ramp" placeholder="Enter ramp">
+                        <input type="text" class="form-control" id="input-ramp" placeholder="Ramp rate in kw/s">
+                        <span class="input-group-addon">kw/s</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -133,16 +154,19 @@
                 <div class="card">
                     <div class="card-header container.fluid">
                         <div class="row">
-                            <div class="col-md-2" style="text-align:left;">
+                            <div class="col-md-3" style="text-align:left;">
                                 <h6><a class="tag tag-warning"
                                        style="color:white;"
+                                       data-toggle="tooltip"
+                                       data-placement="bottom"
+                                       title="Delete power plant"
                                        onclick="getDeletePlant('{{n.uid}}')">&times;</a></h6>
                             </div>
-                            <div class="col-md-6" style="text-align:center;vertical-align:middle">
-                                <h6><span style="text-align:left;">{{n.name}}</span></h6>
+                            <div class="col-md-6" style="text-align:center;">
+                                <h6><span style="text-align:center;">{{n.name}}</span></h6>
                             </div>
-                            <div class="col-md-4" style="text-align:right;">
-                                <h6><span class="tag tag-pill tag-success"  style="text-align:center;">{{n.uid}}</span></h6>
+                            <div class="col-md-3" style="text-align:right;">
+                                <h6><span class="tag tag-pill tag-success"  style="text-align:right;">{{n.uid}}</span></h6>
                             </div>
                         </div>
                     </div>

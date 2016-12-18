@@ -63,16 +63,23 @@ def add_new_plant():
     try:
         raw = request.data
         body = json.loads(raw)
+        validate_request(body)
         uid = storage.persist(body['name'], body['internal_setpoint'], body['fluctuation'], body['ramp'])
         plants[uid] = SimplePlantActor.SimplePlantActor.start(uid,
                                                               int(body['internal_setpoint']),
                                                               int(body['fluctuation']),
                                                               int(body['ramp']))
         return str(uid)
-    except KeyError:
-        return not_created()
-    except ValueError:
-        return not_created()
+    except KeyError as ke:
+        return not_created(ke.message)
+    except ValueError as ve:
+        return not_created(ve.message)
+
+
+def validate_request(body):
+    for k in body:
+        if not body[k]:
+            raise ValueError(str(k))
 
 
 @app.route('/delete/<uid>')
@@ -103,10 +110,10 @@ def not_found(uid, msg):
     return resp, 404
 
 
-def not_created():
+def not_created(msg):
     message = {
             'status': 400,
-            'message': 'Invalid request'
+            'message': 'Invalid request - ' + str(msg) + ' is missing.'
     }
     resp = json.dumps(message)
     return resp, 400
