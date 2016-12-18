@@ -64,7 +64,10 @@ def add_new_plant():
         raw = request.data
         body = json.loads(raw)
         uid = storage.persist(body['name'], body['internal_setpoint'], body['fluctuation'], body['ramp'])
-        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, body['internal_setpoint'], body['fluctuation'], body['ramp'])
+        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid,
+                                                              int(body['internal_setpoint']),
+                                                              int(body['fluctuation']),
+                                                              int(body['ramp']))
         return str(uid)
     except KeyError:
         return not_created()

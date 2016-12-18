@@ -2,17 +2,18 @@
 <html>
   <head>
     <title>PyPoSim</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.1.0/js/tether.min.js"></script>
+      <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
   </head>
   <body>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
-        function setOutputForPlant(uid, output){
+        /**function setOutputForPlant(uid, output){
             $("div#power-out-"+uid).text(output)
-        }
+        };
         (function worker() {
             {% for n in plants %}
             $.getJSON('/{{n.uid}}', function (data) {
@@ -21,14 +22,89 @@
             {% endfor %}
             setTimeout(worker, 1000);
         })();
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });**/
+        function postAddPlant(){
+            var name = document.getElementById('input-name').value;
+            var setpoint = document.getElementById('input-internal_setpoint').value;
+            var fluctuation = document.getElementById('input-fluctuation').value;
+            var ramp = document.getElementById('input-ramp').value;
+            $.ajax({
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "name": name,
+                    "internal_setpoint": setpoint,
+                    "fluctuation": fluctuation,
+                    "ramp": ramp
+                }),
+                success: function(data){
+                    console.log("plant added successfully");
+                    window.location.reload();
+                },
+                error: function(){
+                    console.log("Add to plant failed");
+                    console.log(JSON.stringify({
+                            "name": name,
+                            "internal_setpoint": setpoint,
+                            "fluctuation": fluctuation,
+                            "ramp": ramp
+                        })
+                    )
+                },
+                type: 'POST',
+                url: '/add'
+            });
+        }
     </script>
     <nav class="navbar navbar-static-top navbar-dark bg-inverse">
-      <span class="navbar-brand" href="#">PyPoSim Active Plants</span>
+        <span class="navbar-brand" href="#">PyPoSim Active Plants</span>
+        <button type="button"
+                style="float: right;"
+                class="btn btn-primary add-plant-popover"
+                data-toggle="modal"
+                data-target="#add-plant-modal"
+                >
+            +
+        </button>
     </nav>
 
-    <div class="container">
-        <div class="row">
-
+    <!-- Modal -->
+    <div class="modal fade" id="add-plant-modal" tabindex="-1" role="dialog" aria-labelledby="add-plant-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="add-plant-label">Add new power plant</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label for="input-name">Plant name</label>
+                        <input type="text" class="form-control" id="input-name" placeholder="Enter name">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <label for="input-internal_setpoint">Internal setpoint</label>
+                        <input type="number" class="form-control" id="input-internal_setpoint" placeholder="Enter initial setpoint">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <label for="input-fluctuation">Fluctuation</label>
+                        <input type="number" class="form-control" id="input-fluctuation" placeholder="Enter fluctuation in %">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <label for="input-ramp">Ramp rate</label>
+                        <input type="number" class="form-control" id="input-ramp" placeholder="Enter ramp">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button onclick="postAddPlant()" type="button submit" data-dismiss="modal" class="btn btn-success">Add</button>
+                </div>
+            </div>
         </div>
     </div>
 
