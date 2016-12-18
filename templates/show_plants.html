@@ -56,6 +56,20 @@
                 url: '/add'
             });
         }
+        function getDeletePlant(uid){
+            $.ajax({
+                success: function(data){
+                    console.log("plant deleted successfully");
+                    window.location.reload();
+                },
+                error: function(){
+                    console.log("Delete plant failed");
+                    console.log(uid);
+                },
+                type: 'GET',
+                url: '/delete/'+uid
+            });
+        }
     </script>
     <nav class="navbar navbar-static-top navbar-dark bg-inverse">
         <span class="navbar-brand" href="#">PyPoSim Active Plants</span>
@@ -119,7 +133,14 @@
                 <div class="card">
                     <div class="card-header container.fluid">
                         <div class="row">
-                            <h6><span class="col-md-8 " style="text-align:left;">{{n.name}}</span></h6>
+                            <div class="col-md-2" style="text-align:left;">
+                                <h6><a class="tag tag-warning"
+                                       style="color:white;"
+                                       onclick="getDeletePlant('{{n.uid}}')">&times;</a></h6>
+                            </div>
+                            <div class="col-md-6" style="text-align:center;vertical-align:middle">
+                                <h6><span style="text-align:left;">{{n.name}}</span></h6>
+                            </div>
                             <div class="col-md-4" style="text-align:right;">
                                 <h6><span class="tag tag-pill tag-success"  style="text-align:center;">{{n.uid}}</span></h6>
                             </div>
