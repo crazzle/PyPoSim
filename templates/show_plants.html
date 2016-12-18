@@ -25,37 +25,55 @@
         $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').focus()
         });
+        function isNotNumber(num){
+            return !/^\+?\d+$/.test(num)
+        }
         function postAddPlant(){
             var name = document.getElementById('input-name').value;
             var setpoint = document.getElementById('input-internal_setpoint').value;
             var fluctuation = document.getElementById('input-fluctuation').value;
             var ramp = document.getElementById('input-ramp').value;
-            $.ajax({
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    "name": name,
-                    "internal_setpoint": setpoint,
-                    "fluctuation": fluctuation,
-                    "ramp": ramp
-                }),
-                success: function(data){
-                    console.log("plant added successfully");
-                    window.location.reload();
-                },
-                error: function(){
-                    alert('add', name);
-                    console.log("Add to plant failed");
-                    console.log(JSON.stringify({
-                            "name": name,
-                            "internal_setpoint": setpoint,
-                            "fluctuation": fluctuation,
-                            "ramp": ramp
-                        })
-                    )
-                },
-                type: 'POST',
-                url: '/add'
-            });
+            if(name.length < 1){
+                var msg = 'Could not create plant <strong>without name</strong>';
+                alert(msg);
+            }else if(setpoint.length < 1 || isNotNumber(setpoint)){
+                var msg = 'Could not create plant when <strong>setpoint is empty or not a number</strong>';
+                alert(msg);
+            }else if(fluctuation.length < 1 || isNotNumber(fluctuation)){
+                var msg = 'Could not create plant when <strong>fluctuation is empty or not a number</strong>';
+                alert(msg);
+            }else if(ramp.length < 1 || isNotNumber(ramp) || parseInt(ramp) < 0){
+                var msg = 'Could not create plant with <strong>negative, invalid or missing ramp rate</strong>';
+                alert(msg);
+            }else{
+                $.ajax({
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "name": name,
+                        "internal_setpoint": setpoint,
+                        "fluctuation": fluctuation,
+                        "ramp": ramp
+                    }),
+                    success: function (data) {
+                        console.log("plant added successfully");
+                        window.location.reload();
+                    },
+                    error: function () {
+                        var msg = 'Could not add plant <strong>"'+name+'".</strong>';
+                        alert(msg);
+                        console.log("Add to plant failed");
+                        console.log(JSON.stringify({
+                                "name": name,
+                                "internal_setpoint": setpoint,
+                                "fluctuation": fluctuation,
+                                "ramp": ramp
+                            })
+                        )
+                    },
+                    type: 'POST',
+                    url: '/add'
+                });
+            }
         }
         function getDeletePlant(uid){
             $.ajax({
@@ -64,7 +82,8 @@
                     window.location.reload();
                 },
                 error: function(){
-                    alert('delete', uid);
+                    var msg = 'Could not delete plant <strong>"'+uid+'".</strong>';
+                    alert(msg);
                     console.log("Delete plant failed");
                     console.log(uid);
                 },
@@ -75,13 +94,13 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });
-        function alert(operation, name) {
+        function alert(msg) {
             $('#add-plant-alert').html('' +
                 '<div id="add-plant-alert" class="alert alert-danger alert-dismissible fade in">' +
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                'Could not ' + operation + ' plant <strong>"'+name+'".</strong>'+
+                '</button>'
+                + msg +
                 '</div>');
             $('#add-plant-alert').alert();
         };

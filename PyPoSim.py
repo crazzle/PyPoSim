@@ -64,11 +64,12 @@ def add_new_plant():
         raw = request.data
         body = json.loads(raw)
         validate_request(body)
-        uid = storage.persist(body['name'], body['internal_setpoint'], body['fluctuation'], body['ramp'])
-        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid,
-                                                              int(body['internal_setpoint']),
-                                                              int(body['fluctuation']),
-                                                              int(body['ramp']))
+        name = body['name']
+        setpoint = int(body['internal_setpoint'])
+        fluctuation = int(body['fluctuation'])
+        ramp = abs(int(body['ramp']))  # Because negative ramps make absolutely no sense!
+        uid = storage.persist(name, setpoint, fluctuation, ramp)
+        plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, setpoint, fluctuation, ramp)
         return str(uid)
     except KeyError as ke:
         return not_created(ke.message)
@@ -113,7 +114,7 @@ def not_found(uid, msg):
 def not_created(msg):
     message = {
             'status': 400,
-            'message': 'Invalid request - ' + str(msg) + ' is missing.'
+            'message': 'Invalid request - ' + str(msg)
     }
     resp = json.dumps(message)
     return resp, 400
