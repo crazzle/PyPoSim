@@ -11,6 +11,10 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 
 [X] Provide REST API
 
+[X] Add plants using UI
+
+[X] Delete plants using UI
+
 
 # Getting started
 1. Clone the repo
