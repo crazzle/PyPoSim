@@ -11,7 +11,7 @@
   <body>
     <script type=text/javascript>
         $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
-        /**function setOutputForPlant(uid, output){
+        function setOutputForPlant(uid, output){
             $("div#power-out-"+uid).text(output)
         };
         (function worker() {
@@ -24,7 +24,7 @@
         })();
         $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').focus()
-        });**/
+        });
         function postAddPlant(){
             var name = document.getElementById('input-name').value;
             var setpoint = document.getElementById('input-internal_setpoint').value;
