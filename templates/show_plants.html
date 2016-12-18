@@ -30,7 +30,7 @@
         }
         function postAddPlant(){
             var name = document.getElementById('input-name').value;
-            var setpoint = document.getElementById('input-internal_setpoint').value;
+            var setpoint = document.getElementById('input-initial_setpoint').value;
             var fluctuation = document.getElementById('input-fluctuation').value;
             var ramp = document.getElementById('input-ramp').value;
             if(name.length < 1){
@@ -50,7 +50,7 @@
                     contentType: 'application/json',
                     data: JSON.stringify({
                         "name": name,
-                        "internal_setpoint": setpoint,
+                        "initial_setpoint": setpoint,
                         "fluctuation": fluctuation,
                         "ramp": ramp
                     }),
@@ -64,7 +64,7 @@
                         console.log("Add to plant failed");
                         console.log(JSON.stringify({
                                 "name": name,
-                                "internal_setpoint": setpoint,
+                                "initial_setpoint": setpoint,
                                 "fluctuation": fluctuation,
                                 "ramp": ramp
                             })
@@ -136,9 +136,9 @@
                         <input type="text" class="form-control" id="input-name" placeholder="Name of the power plant">
                     </div>
                     <br>
-                    <label for="input-internal_setpoint">Internal setpoint</label>
+                    <label for="input-initial_setpoint">Initial setpoint</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="input-internal_setpoint" placeholder="Initial setpoint in kw">
+                        <input type="text" class="form-control" id="input-initial_setpoint" placeholder="Initial setpoint in kw">
                         <span class="input-group-addon">kw</span>
                     </div>
                     <br>
@@ -210,7 +210,7 @@
                                       title="The initial power level of the plant">Initial setpoint:</span>
                                 <span class="col-md-4"
                                       style="font-weight:bold;text-align:right">
-                                    <span class="tag tag-info">{{n.internal_setpoint}} kw</span></span>
+                                    <span class="tag tag-info">{{n.initial_setpoint}} kw</span></span>
                             </div>
                         </li>
                         <li class="list-group-item">

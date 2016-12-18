@@ -24,6 +24,11 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 
 You can run it alternatively using Docker.
 
+# Current set of parameters
+1. Initial setpoint: The initial power level of the plant
+2. Fluctuation: Corridor the output fluctuates within based on the initial setpoint
+3. Ramp: Velocity to change from one power level to another
+
 # Play with the simulator
 The simulator provides a REST API to create, poll, steere and delete simulated plants.
 For stream processing Kafka can be configured accordingly to push datapoints into a topic.

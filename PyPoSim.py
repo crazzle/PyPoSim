@@ -19,7 +19,7 @@ storage.initialize_db()
 for plant in storage.get_all_plants():
     plants[plant.uid] = SimplePlantActor.SimplePlantActor.start(
             plant.uid,
-            plant.internal_setpoint,
+            plant.initial_setpoint,
             plant.fluctuationInPercentage,
             plant.rampInSeconds)
 
@@ -67,7 +67,7 @@ def add_new_plant():
         body = json.loads(raw)
         validate_request(body)
         name = body['name']
-        setpoint = int(body['internal_setpoint'])
+        setpoint = int(body['initial_setpoint'])
         fluctuation = int(body['fluctuation'])
         ramp = abs(int(body['ramp']))  # Because negative ramps make absolutely no sense!
         uid = storage.persist(name, setpoint, fluctuation, ramp)
