@@ -37,7 +37,7 @@ class PlantStorage:
     def get_all_plants(self):
         connection = sqlite3.connect(self.db)
         cursor = connection.cursor()
-        rows = cursor.execute("select * from plant ORDER BY name ASC")
+        rows = cursor.execute("select * from plant ORDER BY name, id ASC")
         connection.commit()
         entries = list()
         for row in rows:
