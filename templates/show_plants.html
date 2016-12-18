@@ -204,7 +204,10 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <span class="col-md-8 text-muted"
-                                      style="text-align:left">Initial setpoint:</span>
+                                      style="text-align:left"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="The initial power level of the plant">Initial setpoint:</span>
                                 <span class="col-md-4"
                                       style="font-weight:bold;text-align:right">
                                     <span class="tag tag-info">{{n.internal_setpoint}} kw</span></span>
@@ -213,7 +216,10 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <span class="col-md-6 text-muted"
-                                      style="text-align:left">Fluctuation:</span>
+                                      style="text-align:left"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="Corridor based on initial setpoint">Fluctuation:</span>
                                 <span class="col-md-6 text-muted"
                                       style="font-weight:bold;text-align:right">
                                     <span class="tag tag-info">{{n.fluctuationInPercentage}} %</span></span>
@@ -222,7 +228,10 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <span class="col-md-6 text-muted"
-                                      style="text-align:left">Ramp:</span>
+                                      style="text-align:left"
+                                      data-toggle="tooltip"
+                                      data-placement="bottom"
+                                      title="Velocity to go from one setpoint to another">Ramp:</span>
                                 <span class="col-md-6 text-muted"
                                       style="font-weight:bold;text-align:right">
                                     <span class="tag tag-info">{{n.rampInSeconds}} kw</span></span>

@@ -52,10 +52,12 @@ def get_output_for_plant(uid):
 @app.route('/dispatch/<uid>/<point>')
 def set_power_target_for_plant(uid, point):
     try:
-        find_active_plant(uid).tell({'msg': 'dispatch', 'value': point})
+        find_active_plant(uid).tell({'msg': 'dispatch', 'value': int(point)})
         return str(point)
     except PlantNotFoundException.PlantNotFoundException as e:
         return not_found(e.uid, e.msg)
+    except ValueError as ve:
+        return bad_request(ve.message)
 
 
 @app.route('/add', methods=['POST'])
@@ -72,9 +74,9 @@ def add_new_plant():
         plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, setpoint, fluctuation, ramp)
         return str(uid)
     except KeyError as ke:
-        return not_created(ke.message)
+        return bad_request(ke.message)
     except ValueError as ve:
-        return not_created(ve.message)
+        return bad_request(ve.message)
 
 
 def validate_request(body):
@@ -111,7 +113,7 @@ def not_found(uid, msg):
     return resp, 404
 
 
-def not_created(msg):
+def bad_request(msg):
     message = {
             'status': 400,
             'message': 'Invalid request - ' + str(msg)
