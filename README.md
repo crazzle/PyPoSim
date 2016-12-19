@@ -45,7 +45,7 @@ In order to function properly, the body must contain JSON in the following forma
   "ramp": 15 }
 
 - "name" is the name of your plant.
-- "internal_setpoint" the initial power level this plant is supposed to generate. The output fluctuates around this value
+- "initial_setpoint" the initial power level this plant is supposed to generate. The output fluctuates around this value
 - "fluctuation" is the fluctuation running around the power in percentage
 - "ramp" is the factor the plants ramps up and down per second in KW
 
