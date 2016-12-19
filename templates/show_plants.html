@@ -12,7 +12,7 @@
     <script type=text/javascript>
         $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
         function setOutputForPlant(uid, output){
-            $("div#power-out-"+uid).text(output)
+            $("div#power-out-"+uid).text(output + " kw")
         };
         (function worker() {
             {% for n in plants %}
@@ -77,19 +77,40 @@
         }
         function getDeletePlant(uid){
             $.ajax({
-                success: function(data){
-                    console.log("plant deleted successfully");
-                    window.location.reload();
+                success: function (data) {
+                    console.log("plant dispatch successfully");
                 },
-                error: function(){
-                    var msg = 'Could not delete plant <strong>"'+uid+'".</strong>';
+                error: function () {
+                    var msg = 'Could not dispatch plant <strong>"' + uid + '"</strong> to <strong>"' + value + '"</strong>.';
                     alert(msg);
-                    console.log("Delete plant failed");
-                    console.log(uid);
+                    console.log("dispatch plant failed");
+                    console.log(uid + " to " + value);
                 },
                 type: 'GET',
-                url: '/delete/'+uid
+                url: '/delete/' + uid
             });
+        };
+        function getDispatchPlant(uid){
+            var value = document.getElementById('dispatch-'+uid).value;
+            if(value.length < 1 || isNotNumber(value)){
+                var msg = 'Could not dispatch plant with <strong>invalid or missing value</strong>';
+                alert(msg);
+            }else {
+                $.ajax({
+                    success: function (data) {
+                        console.log("plant dispatched successfully");
+                        window.location.reload();
+                    },
+                    error: function () {
+                        var msg = 'Could not dispatch plant <strong>"' + uid + '"</strong> to <strong>"' + value + '"</strong>.';
+                        alert(msg);
+                        console.log("Delete plant failed");
+                        console.log(uid);
+                    },
+                    type: 'GET',
+                    url: '/dispatch/' + uid + '/' + value
+                });
+            }
         };
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -235,6 +256,28 @@
                                 <span class="col-md-6 text-muted"
                                       style="font-weight:bold;text-align:right">
                                     <span class="tag tag-info">{{n.rampInSeconds}} kw</span></span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-6"
+                                      style="text-align:left">
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               data-toggle="tooltip"
+                                               data-placement="bottom"
+                                               title="New setpoint of the plant"
+                                               id="dispatch-{{n.uid}}"
+                                               placeholder="e.g. {{n.initial_setpoint}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-muted"
+                                      style="font-weight:bold;text-align:right">
+                                    <button onclick="getDispatchPlant('{{n.uid}}')"
+                                            type="button"
+                                            class="btn btn-success">Dispatch</button>
+                                </div>
                             </div>
                         </li>
                     </ul>

@@ -15,6 +15,8 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 
 [X] Delete plants using UI
 
+[X] Dispatch plants using UI
+
 
 # Getting started
 1. Clone the repo
