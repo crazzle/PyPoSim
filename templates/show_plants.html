@@ -104,7 +104,7 @@
                     error: function () {
                         var msg = 'Could not dispatch plant <strong>"' + uid + '"</strong> to <strong>"' + value + '"</strong>.';
                         alert(msg);
-                        console.log("Delete plant failed");
+                        console.log("Dispatch plant failed");
                         console.log(uid);
                     },
                     type: 'GET',
@@ -266,7 +266,7 @@
                                 <div class="col-md-6"
                                       style="text-align:left">
                                     <div class="input-group">
-                                        <input type="text"
+                                        <input type="number"
                                                class="form-control"
                                                data-toggle="tooltip"
                                                data-placement="bottom"
