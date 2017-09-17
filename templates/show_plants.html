@@ -79,6 +79,7 @@
             $.ajax({
                 success: function (data) {
                     console.log("plant dispatch successfully");
+                    window.location.reload();
                 },
                 error: function () {
                     var msg = 'Could not dispatch plant <strong>"' + uid + '"</strong> to <strong>"' + value + '"</strong>.';
@@ -99,7 +100,6 @@
                 $.ajax({
                     success: function (data) {
                         console.log("plant dispatched successfully");
-                        window.location.reload();
                     },
                     error: function () {
                         var msg = 'Could not dispatch plant <strong>"' + uid + '"</strong> to <strong>"' + value + '"</strong>.';
