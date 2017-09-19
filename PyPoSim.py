@@ -1,6 +1,7 @@
-from flask import Flask
-from flask import render_template
-from flask import request
+import tornado
+from tornado import ioloop, gen, web
+from tornado.concurrent import run_on_executor
+from flask import Flask, render_template, request
 from actor import SimplePlantActor
 from plantstorage import PlantStorage
 from pykka import ActorRegistry
@@ -12,6 +13,9 @@ import logging
 import datasinks.LoggingSink as LoggingSink
 import datasinks.KafkaSink as KafkaSink
 import util.Config as Config
+from concurrent.futures import ThreadPoolExecutor   # `pip install futures` for python2
+
+MAX_WORKERS = 4
 
 plants = {}
 storage = PlantStorage.PlantStorage()
@@ -40,6 +44,20 @@ def get_masterdata_for_plant(uid):
         return not_found(e.uid, e.msg)
 
 
+class GetStatRequestHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(max_workers=MAX_WORKERS)
+
+    @gen.coroutine
+    def get(self, uid):
+        point = yield self.get_point(uid)
+        self.write(str(point))
+
+    @run_on_executor
+    def get_point(self, uid):
+        point = find_active_plant(uid).ask({'msg': 'stats'}, block=True, timeout=None)
+        return point
+
+
 @app.route('/<uid>')
 def get_output_for_plant(uid):
     try:
@@ -47,7 +65,6 @@ def get_output_for_plant(uid):
         return str(point)
     except PlantNotFoundException.PlantNotFoundException as e:
         return not_found(e.uid, e.msg)
-
 
 @app.route('/dispatch/<uid>/<point>')
 def set_power_target_for_plant(uid, point):
@@ -159,6 +176,10 @@ if __name__ == '__main__':
     if Config.get_history_config()["enabled"]:
         logger.info("history enabled")
         LoggingSink.subscribe()
+
+    app = web.Application([(r"/([a-zA-Z0-9]{2,})", GetStatRequestHandler)])
+    app.listen(5001)
+    ioloop.IOLoop.current().start()
 
     ## run flask app
     app.run(host='0.0.0.0')
