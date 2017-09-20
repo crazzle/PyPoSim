@@ -10,7 +10,6 @@
   </head>
   <body>
     <script type=text/javascript>
-        $SCRIPT_ROOT = {{request.script_root|tojson|safe}};
         function setOutputForPlant(uid, output){
             $("div#power-out-"+uid).text(output + " kw")
         };
@@ -19,7 +18,7 @@
             $.getJSON('/{{n.uid}}', function (data) {
                 setOutputForPlant('{{n.uid}}', data)
             });
-            {% endfor %}
+            {% end %}
             setTimeout(worker, 1000);
         })()
         $('#myModal').on('shown.bs.modal', function () {
@@ -185,11 +184,12 @@
 
     <div class="container" style="padding-top: 25px;">
         {% set columns = 4 %}
-        {% for n in plants %}
-        {% if loop.index == 1 or (loop.index - 1) % columns == 0 %}
-        {% set current = loop.index - 1 %}
+        {% for idx, n in enumerate(plants) %}
+        {% set current = idx%}
+        {% if idx == 1 or (idx - 1) % columns == 0 %}
+        {% set current = idx - 1 %}
         <div class="row">
-        {% endif %}
+        {% end %}
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header container.fluid">
@@ -286,10 +286,10 @@
                     </ul>
                 </div>
             </div>
-        {% if loop.index - columns == current %}
+        {% if idx - columns == current %}
         </div>
-        {% endif %}
-        {% endfor %}
+        {% end %}
+        {% end %}
     </div>
   </body>
 </html>
