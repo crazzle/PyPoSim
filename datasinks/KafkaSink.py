@@ -3,6 +3,10 @@ from streams.Streams import globalStream as stream
 import util.Config as Config
 import logging
 from concurrent import futures
+from time import sleep
+
+
+retry_wait_time = 5
 
 
 # on top for pickling
@@ -11,7 +15,11 @@ def subscribe_async():
         producer = KafkaProducer(bootstrap_servers=server + ":" + port)
         stream.subscribe(lambda x: producer.send(topic, str(x)))
     except Exception as e:
-        logger.error("could not connect to kafka broker because of " + str(e))
+        logger.error("could not connect to kafka broker because of error:" + str(e))
+        logger.error("retry in " + str(retry_wait_time) + " seconds")
+        sleep(retry_wait_time)
+        subscribe()
+
 
 logger = logging.getLogger(__name__)
 kafka_config = Config.get_kafka_config()

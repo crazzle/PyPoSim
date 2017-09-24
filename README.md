@@ -5,7 +5,7 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 
 [X] Provide Kafka support
 
-[_] Ensure connection to Kafka Broker if Kafka is down on start-up
+[X] Ensure connection to Kafka Broker if Kafka is down on start-up
 
 [X] Log datapoints into a file
 
