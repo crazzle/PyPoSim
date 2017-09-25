@@ -9,32 +9,38 @@ from plant.simple import Fluctuation
 
 class SimplePlant:
 
-    def __init__(self, plant_id, internal_setpoint, fluctuation_in_percent, ramp_per_second):
+    def __init__(self, plant_id, capacity, fluctuation_in_percent, ramp_per_second):
         self.plant_id = plant_id
-        self.internal_setpoint = internal_setpoint
-        self.output = internal_setpoint
+        self.capacity = capacity
+        self.setpoint = capacity
+        self.output = capacity
         self.percentage = fluctuation_in_percent
-        self.fluctuation = Fluctuation.Fluctuation(fluctuation_in_percent, internal_setpoint)
+        self.fluctuation = Fluctuation.Fluctuation(fluctuation_in_percent, capacity)
         self.rampPerSecond = ramp_per_second
-        self.ramp = Ramp(internal_setpoint, internal_setpoint, ramp_per_second)
+        self.ramp = Ramp(capacity, capacity, ramp_per_second)
 
     def evolve(self):
         state = copy.deepcopy(self)
         new_ramp = self.ramp.evolve()
         state.ramp = new_ramp
-        state.internal_setpoint = new_ramp.power
-        state.output = self.fluctuation(state.internal_setpoint)
+        state.setpoint = new_ramp.power
+        state.output = self.fluctuation(state.setpoint)
+        state.output = state.output if state.output > 0 else 0
         state.emit_all()
         return state
 
-    def dispatch(self, internal_setpoint):
+    def dispatch(self, setpoint):
         state = copy.deepcopy(self)
-        state.ramp = self.ramp.start(internal_setpoint, self.internal_setpoint)
-        state.emit("dispatch", internal_setpoint)
+        if setpoint < 0:
+            setpoint = 0
+        elif setpoint > self.capacity:
+            setpoint = self.capacity
+        state.ramp = self.ramp.start(setpoint, self.setpoint)
+        state.emit("dispatch", setpoint)
         return state
 
     def emit_all(self):
-        self.emit("internal_setpoint", self.internal_setpoint)
+        self.emit("setpoint", self.setpoint)
         self.emit("power_output", self.output)
 
     def emit(self, metric, value):

@@ -20,9 +20,9 @@ def find_active_plant(uid):
         raise PlantNotFoundException.PlantNotFoundException("Plant not found in running plants", uid)
 
 
-def add_new_plant(name, setpoint, fluctuation, ramp):
-    uid = storage.persist(name, setpoint, fluctuation, ramp)
-    plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, setpoint, fluctuation, ramp)
+def add_new_plant(name, capacity, fluctuation, ramp):
+    uid = storage.persist(name, capacity, fluctuation, ramp)
+    plants[uid] = SimplePlantActor.SimplePlantActor.start(uid, capacity, fluctuation, ramp)
     return uid
 
 

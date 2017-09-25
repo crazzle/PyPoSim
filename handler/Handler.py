@@ -111,10 +111,10 @@ class Add(BaseRequestHandler):
             body = json.loads(raw)
             self.validate_request(body)
             name = body['name']
-            setpoint = int(body['initial_setpoint'])
+            capacity = int(body['capacity'])
             fluctuation = int(body['fluctuation'])
             ramp = abs(int(body['ramp']))  # Because negative ramps make absolutely no sense!
-            uid = yield self.persist(name, setpoint, fluctuation, ramp)
+            uid = yield self.persist(name, capacity, fluctuation, ramp)
             self.write(str(uid))
         except KeyError as ke:
             self.write(self.bad_request(ke.message))
@@ -122,8 +122,8 @@ class Add(BaseRequestHandler):
             self.write(self.bad_request(ve.message))
 
     @run_on_executor
-    def persist(self, name, setpoint, fluctuation, ramp):
-        uid = self.registry.add_new_plant(name, setpoint, fluctuation, ramp)
+    def persist(self, name, capacity, fluctuation, ramp):
+        uid = self.registry.add_new_plant(name, capacity, fluctuation, ramp)
         return uid
 
 

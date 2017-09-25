@@ -17,6 +17,10 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 
 [X] Dispatch plants using UI
 
+[X] Distinguish between capacity and setpoint
+
+[X] Limit dispatch to be between zero and capacity
+
 
 # Getting started
 1. Clone the repo
@@ -27,8 +31,8 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 You can run it alternatively using Docker.
 
 # Current set of parameters
-1. Initial setpoint: The initial power level of the plant
-2. Fluctuation: Corridor the output fluctuates within based on the initial setpoint
+1. Capacity: The capacity of the plant
+2. Fluctuation: Corridor the output fluctuates within based on the capacity
 3. Ramp: Velocity to change from one power level to another
 
 # Play with the simulator
@@ -45,9 +49,11 @@ In order to function properly, the body must contain JSON in the following forma
   "ramp": 15 }
 
 - "name" is the name of your plant.
-- "initial_setpoint" the initial power level this plant is supposed to generate. The output fluctuates around this value
+- "capacity" is the power-level that this plant is able to generate at max. The output fluctuates around this value.
 - "fluctuation" is the fluctuation running around the power in percentage
 - "ramp" is the factor the plants ramps up and down per second in KW
+
+A newly created plant always delivers the maximum power in the beginning.
 
 The response of this endpoint contains a UID that is used to access the new created simulation.
 

@@ -5,10 +5,10 @@ from plant.simple import SimplePlant
 
 class SimplePlantActor(pykka.ThreadingActor):
 
-    def __init__(self, plant_id, internal_setpoint, fluctuation, ramp):
+    def __init__(self, plant_id, capacity, fluctuation, ramp):
         super(SimplePlantActor, self).__init__()
         self.plant_id = plant_id
-        self.plant = SimplePlant.SimplePlant(plant_id, internal_setpoint, fluctuation, ramp)
+        self.plant = SimplePlant.SimplePlant(plant_id, capacity, fluctuation, ramp)
 
     def on_receive(self, message):
         if message["msg"] == "tick":

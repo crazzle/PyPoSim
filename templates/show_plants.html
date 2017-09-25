@@ -29,14 +29,14 @@
         }
         function postAddPlant(){
             var name = document.getElementById('input-name').value;
-            var setpoint = document.getElementById('input-initial_setpoint').value;
+            var capacity = document.getElementById('input-capacity').value;
             var fluctuation = document.getElementById('input-fluctuation').value;
             var ramp = document.getElementById('input-ramp').value;
             if(name.length < 1){
                 var msg = 'Could not create plant <strong>without name</strong>';
                 alert(msg);
-            }else if(setpoint.length < 1 || isNotNumber(setpoint)){
-                var msg = 'Could not create plant when <strong>setpoint is empty or not a number</strong>';
+            }else if(capacity.length < 1 || isNotNumber(capacity)){
+                var msg = 'Could not create plant when <strong>capacity is empty or not a number</strong>';
                 alert(msg);
             }else if(fluctuation.length < 1 || isNotNumber(fluctuation)){
                 var msg = 'Could not create plant when <strong>fluctuation is empty or not a number</strong>';
@@ -49,7 +49,7 @@
                     contentType: 'application/json',
                     data: JSON.stringify({
                         "name": name,
-                        "initial_setpoint": setpoint,
+                        "capacity": capacity,
                         "fluctuation": fluctuation,
                         "ramp": ramp
                     }),
@@ -63,7 +63,7 @@
                         console.log("Add to plant failed");
                         console.log(JSON.stringify({
                                 "name": name,
-                                "initial_setpoint": setpoint,
+                                "capacity": capacity,
                                 "fluctuation": fluctuation,
                                 "ramp": ramp
                             })
@@ -156,9 +156,9 @@
                         <input type="text" class="form-control" id="input-name" placeholder="Name of the power plant">
                     </div>
                     <br>
-                    <label for="input-initial_setpoint">Initial setpoint</label>
+                    <label for="input-capacity">Capacity</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="input-initial_setpoint" placeholder="Initial setpoint in kw">
+                        <input type="text" class="form-control" id="input-capacity" placeholder="Capacity in kw">
                         <span class="input-group-addon">kw</span>
                     </div>
                     <br>
@@ -231,10 +231,10 @@
                                       style="text-align:left"
                                       data-toggle="tooltip"
                                       data-placement="bottom"
-                                      title="The initial power level of the plant">Initial setpoint:</span>
+                                      title="The initial power level of the plant">Capacity:</span>
                                 <span class="col-md-4"
                                       style="font-weight:bold;text-align:right">
-                                    <span class="tag tag-info">{{n.initial_setpoint}} kw</span></span>
+                                    <span class="tag tag-info">{{n.capacity}} kw</span></span>
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -243,7 +243,7 @@
                                       style="text-align:left"
                                       data-toggle="tooltip"
                                       data-placement="bottom"
-                                      title="Corridor based on initial setpoint">Fluctuation:</span>
+                                      title="Corridor based on capacity">Fluctuation:</span>
                                 <span class="col-md-6 text-muted"
                                       style="font-weight:bold;text-align:right">
                                     <span class="tag tag-info">{{n.fluctuationInPercentage}} %</span></span>
@@ -272,7 +272,7 @@
                                                data-placement="bottom"
                                                title="New setpoint of the plant"
                                                id="dispatch-{{n.uid}}"
-                                               placeholder="e.g. {{n.initial_setpoint}}">
+                                               placeholder="e.g. {{n.capacity}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-muted"

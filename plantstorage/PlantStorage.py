@@ -28,7 +28,7 @@ class PlantStorage:
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name varchar(255) NOT NULL,
           insertTS TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          initial_setpoint INTEGER NOT NULL,
+          capacity INTEGER NOT NULL,
           fluctuation INTEGER NOT NULL,
           ramp_in_seconds INTEGER NOT NULL
         )
@@ -44,10 +44,10 @@ class PlantStorage:
         for row in rows:
             plant_id = self.id_generator.encode(row[0])
             name = row[1]
-            initial_setpoint = row[3]
+            capacity = row[3]
             fluctuation = row[4]
             ramp = row[5]
-            entries.append(StoredPlant.StoredPlant(plant_id, name, initial_setpoint, fluctuation, ramp))
+            entries.append(StoredPlant.StoredPlant(plant_id, name, capacity, fluctuation, ramp))
         return entries
 
     def get_plant_by_uid(self, uid):
@@ -60,20 +60,20 @@ class PlantStorage:
         for row in rows:
             plant_id = self.id_generator.encode(row[0])
             name = row[1]
-            initial_setpoint = row[3]
+            capacity = row[3]
             fluctuation = row[4]
             ramp = row[5]
-            entries.append(StoredPlant.StoredPlant(plant_id, name, initial_setpoint, fluctuation, ramp))
+            entries.append(StoredPlant.StoredPlant(plant_id, name, capacity, fluctuation, ramp))
         try:
             return entries[0]
         except IndexError:
             raise PlantNotFoundException.PlantNotFoundException("Plant not in storage", uid)
 
-    def persist(self, name, initial_setpoint, fluctuation, ramp):
+    def persist(self, name, capacity, fluctuation, ramp):
         connection = sqlite3.connect(self.db)
         cursor = connection.cursor()
-        values = [name, initial_setpoint, fluctuation, ramp]
-        cursor.execute("insert into plant(name,initial_setpoint,fluctuation,ramp_in_seconds) values (?,?,?,?)", values)
+        values = [name, capacity, fluctuation, ramp]
+        cursor.execute("insert into plant(name,capacity,fluctuation,ramp_in_seconds) values (?,?,?,?)", values)
         connection.commit()
         return self.id_generator.encode(cursor.lastrowid)
 
