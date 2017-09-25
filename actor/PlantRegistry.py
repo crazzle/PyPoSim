@@ -1,6 +1,6 @@
-from plantstorage import PlantStorage
-from plantexception import PlantNotFoundException
 from actor import SimplePlantActor
+from plant.exception import PlantNotFoundException
+from plantstorage import PlantStorage
 
 plants = {}
 storage = PlantStorage.PlantStorage()

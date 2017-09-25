@@ -1,6 +1,6 @@
-from ConfigParser import SafeConfigParser
+import ConfigParser
 
-parser = SafeConfigParser()
+parser = ConfigParser.SafeConfigParser()
 parser.read('conf/config.local.ini')
 
 
@@ -19,6 +19,6 @@ def get_history_config():
 
 
 def get_startup_config():
-    add_plants = parser.getboolean("Startup", "add_plants")
+    add_default_plant = parser.getboolean("Startup", "add_default_plant")
     clean_start = parser.getboolean("Startup", "clean_start")
-    return {"add_plants": add_plants, "clean_start": clean_start}
+    return {"add_default_plant": add_default_plant, "clean_start": clean_start}

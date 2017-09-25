@@ -1,5 +1,6 @@
 import unittest
-from mathutil import Fluctuation
+
+from plant.simple import Fluctuation
 
 
 class FluctuationTest(unittest.TestCase):

@@ -1,6 +1,7 @@
-import unittest
-from plant import SimplePlant
 import time
+import unittest
+
+from plant.simple import SimplePlant
 
 
 class SimplePlantTest(unittest.TestCase):

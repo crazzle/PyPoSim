@@ -1,9 +1,10 @@
 import copy
-from Ramp import Ramp
-from mathutil import Fluctuation
-from streams.Streams import globalStream as stream
 import datetime
-from model import DataPoint
+
+from Ramp import Ramp
+from datasinks.Streams import globalStream as stream
+from plant.data import DataPoint
+from plant.simple import Fluctuation
 
 
 class SimplePlant:

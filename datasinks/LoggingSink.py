@@ -1,7 +1,7 @@
-from streams.Streams import globalStream as stream
 import logging
-import util.Config as Config
 
+import util.Config as Config
+from datasinks.Streams import globalStream as stream
 
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler(Config.get_history_config()["filename"], mode='w')

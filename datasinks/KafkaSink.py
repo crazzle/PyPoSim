@@ -1,10 +1,11 @@
-from kafka import KafkaProducer
-from streams.Streams import globalStream as stream
-import util.Config as Config
 import logging
-from concurrent import futures
 from time import sleep
 
+from concurrent import futures
+from kafka import KafkaProducer
+
+import util.Config as Config
+from datasinks.Streams import globalStream as stream
 
 retry_wait_time = 5
 

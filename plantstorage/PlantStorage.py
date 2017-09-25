@@ -1,9 +1,10 @@
 import sqlite3
 
 from hashids import Hashids
-import util.Config as Config
-from plantexception import PlantNotFoundException
+
 import StoredPlant
+import util.Config as Config
+from plant.exception import PlantNotFoundException
 
 
 class PlantStorage:

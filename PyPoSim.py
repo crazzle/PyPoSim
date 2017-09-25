@@ -17,9 +17,8 @@ if __name__ == '__main__':
     logger.info("starting application PyPoSim...")
 
     ## adding standard plant
-    if Config.get_startup_config()["add_plants"]:
-        PlantRegistry.add_new_plant("Standard 1", 100, 10, 5)
-        PlantRegistry.add_new_plant("Standard 2", 500, 50, 25)
+    if Config.get_startup_config()["add_default_plant"]:
+        PlantRegistry.add_new_plant("Default", 100, 10, 5)
 
     ## register datasinks
     if Config.get_kafka_config()["enabled"]:
