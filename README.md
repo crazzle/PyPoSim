@@ -28,7 +28,7 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 3. Install the required dependencies with pip install -r requirements.txt
 4. run it with python PyPoSim.py (standard port is 5000)
 
-You can run it alternatively using Docker.
+You can also run it using Docker, which is the preferred method.
 
 # Current set of parameters
 1. Capacity: The capacity of the plant
