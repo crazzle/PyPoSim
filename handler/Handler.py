@@ -8,6 +8,7 @@ from tornado.concurrent import run_on_executor
 from actor import PlantRegistry
 from plant.exception import PlantNotFoundException
 from plantstorage import PlantStorage
+import json
 
 
 class BaseRequestHandler(web.RequestHandler):
@@ -56,7 +57,7 @@ class MasterData(BaseRequestHandler):
     def get(self, uid):
         try:
             wanted = yield self.get_master_data(uid)
-            self.write(str(wanted))
+            self.write(json.dumps(wanted.__dict__))
         except PlantNotFoundException.PlantNotFoundException as e:
             self.write(self.not_found(e.uid, e.msg))
 

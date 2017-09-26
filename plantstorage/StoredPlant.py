@@ -7,7 +7,7 @@ class StoredPlant:
         self.fluctuationInPercentage = fluctuation_in_percentage
         self.rampInSeconds = ramp_in_seconds
 
-    def __repr__(self):
+    '''def __repr__(self):
         plant_str = "UID: " + str(self.uid) + " "
         plant_str += "Name: " + str(self.name) + " "
         plant_str += "Capacity: " + str(self.capacity) + " "
@@ -21,4 +21,4 @@ class StoredPlant:
         plant_str += "Capacity: " + str(self.capacity) + " "
         plant_str += "Fluctuation (%):" + str(self.fluctuationInPercentage) + " "
         plant_str += "Ramp (kw/s):" + str(self.rampInSeconds)
-        return plant_str
+        return plant_str'''
