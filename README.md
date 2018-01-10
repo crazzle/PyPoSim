@@ -20,7 +20,7 @@ A small power plant simulator that can ramp to a certain power level. Great for 
 [X] Distinguish between capacity and setpoint
 
 [X] Limit dispatch to be between zero and capacity
-
+ 
 
 # Getting started
 1. Clone the repo
